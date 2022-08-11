@@ -135,9 +135,9 @@
   .mainChild {
     width: 27%;
     height: 25vh;
-    position: sticky;
-    top: calc( 50% - 50px);
-    left: calc(50% - 200px);
+    position: absolute;
+    top: calc( 50vh - 12vh);
+    left: calc(50% - 13%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -175,5 +175,57 @@
       font-size: 2rem;
       font-weight: bold;
       color: #008594;
+  }
+
+
+  @media screen and (max-width: 320px) {
+     html{
+        font-size: 6px;
+     } 
+      
+     .hide{
+        width: 50%;
+        margin-left: 50%;
+     }
+
+     .addInput{
+        display: flex;
+        flex-direction: column;
+     }
+
+     .searchInput {
+        width: 90%;
+     }
+
+     .emptyInput{
+        width: 90%;
+     }
+     .addButton{
+        width: 20%;
+        margin-top: 1rem;
+        margin-left: 75%;
+    }
+
+     .myListitem {
+        width: 90%;
+     }
+     
+    .listitemInput{
+        margin-right: 1.5rem;
+    }
+    
+
+
+    .mainChild{
+        width: 80%;
+        height: 20vh;
+        left: 10%;
+        
+    }
+
+    .finallyDelete{
+        padding: 1rem 2rem;
+    }
+    
   }
 

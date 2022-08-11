@@ -32,23 +32,23 @@ const App  = () => {
 
 
 
-    const tasksFilter = (el) => {
+    const filterTask = (el) => {
       if(notComplited) {
-          return el.done = false
+          return el.done === false
       } else {
         return true
       }
     }
 
 
-    const addTask = () => {
+    const myTask = () => {
         if(taskRef.current.value) {
-          const object = {
+          const obj = {
             text: taskRef.current.value,
             id: nextId,
             done: false
           }
-          setToDoList(toDoList.concat(object));
+          setToDoList(toDoList.concat(obj));
           setNextId(nextId + 1)
           taskRef.current.value = ``
           setSearchInput(`${classes.searchInput}`)
@@ -66,7 +66,7 @@ const App  = () => {
       setDeletedId(id)
     }
 
-    const deleteYes = () => {
+    const deleteButtonYes = () => {
             const filteredList = toDoList.filter(el => el.id !== deletedId);
             setToDoList(filteredList)
             setDeletedId(``);
@@ -74,16 +74,16 @@ const App  = () => {
             setMainChildren(`${classes.mainChild}`)
     }
 
-    const deleteNo = () => {
+    const deleteButtonNo = () => {
         setDeletedId(``);
         setMain(`${classes.main}`)
         setMainChildren(`${classes.mainChild}`)
     }
 
     const doneTask = (id) => {
-      let modifiedList = [...toDoList];
-      modifiedList.map(el => el.id === id ? el.done = !el.done : null);
-      setToDoList(modifiedList)
+      let result = [...toDoList];
+      result.map(el => el.id === id ? el.done = !el.done : null);
+      setToDoList(result)
     }
 
     return(
@@ -91,8 +91,8 @@ const App  = () => {
         <Card className={mainChildren}>
               <Text> Are you sure you want to delete? </Text>
               <Card>
-                <Button className={classes.finallyDelete} onClick={deleteYes}>Yes</Button>
-                <Button className={classes.finallyDelete} onClick={deleteNo}>No</Button>
+                <Button className={classes.finallyDelete} onClick={deleteButtonYes}>Yes</Button>
+                <Button className={classes.finallyDelete} onClick={deleteButtonNo}>No</Button>
               </Card>
         </Card>
         <Card className={main}></Card>
@@ -102,11 +102,11 @@ const App  = () => {
         </Card>
         <Card className={classes.addInput}>
         <Input placeholder={placeholder} type="text" className={searchInput} myRef={taskRef} />
-        <Button onClick={addTask} className={classes.addButton}>Add</Button>
+        <Button onClick={myTask} className={classes.addButton}>Add</Button>
         </Card>
         
         <List className={classes.list}>
-            {toDoList.filter(el => tasksFilter(el)).map(el => {
+            {toDoList.filter(el => filterTask(el)).map(el => {
               return(
               <Card className={classes.conteiner}>
               <Listitem className={classes.myListitem } key={el.id}>

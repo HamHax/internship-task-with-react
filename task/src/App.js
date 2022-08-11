@@ -32,7 +32,7 @@ const App  = () => {
 
 
 
-    const filterTasks = (el) => {
+    const tasksFilter = (el) => {
       if(notComplited) {
           return el.done = false
       } else {
@@ -106,7 +106,7 @@ const App  = () => {
         </Card>
         
         <List className={classes.list}>
-            {toDoList.filter(el => filterTasks(el)).map(el => {
+            {toDoList.filter(el => tasksFilter(el)).map(el => {
               return(
               <Card className={classes.conteiner}>
               <Listitem className={classes.myListitem } key={el.id}>

@@ -3,7 +3,7 @@
 const Text =(props)=>{
     return(
         <span className={props.className}>
-            {props.childern}
+            {props.children}
         </span>
     )
 }

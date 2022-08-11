@@ -24,49 +24,85 @@ const App  = () => {
     const [nextId, setNextId] = useState(toDoList[toDoList.length - 1]?.id + 1);
     const [notComplited, setNotComplited] = useState(false);
     const taskRef = useRef("");
-    const [inputClass, setInputClass] = useState(`${classes.searchInput}`);
-    const [inputPlaceholder, setInputPlaceholder] = useState('Write here');
-    const [deleteMainDivClass, setDeleteMainDivClass] = useState(`${classes.main}`);
-    const [deleteDivClass, setDeleteDivClass] = useState(`${classes.mainChild}`);
+    const [searchInput, setSearchInput] = useState(`${classes.searchInput}`);
+    const [placeholder, setPlaceholder] = useState('Write here');
+    const [main, setMain] = useState(`${classes.main}`);
+    const [mainChildren, setMainChildren] = useState(`${classes.mainChild}`);
     const [deletedId, setDeletedId] = useState(``)
-
-
-
 
 
 
     const filterTasks = (el) => {
       if(notComplited) {
-          return el.done === false
+          return el.done = false
       } else {
         return true
       }
     }
 
 
+    const addTask = () => {
+        if(taskRef.current.value) {
+          const object = {
+            text: taskRef.current.value,
+            id: nextId,
+            done: false
+          }
+          setToDoList(toDoList.concat(object));
+          setNextId(nextId + 1)
+          taskRef.current.value = ``
+          setSearchInput(`${classes.searchInput}`)
+          setPlaceholder('Write here')
+        } else {
+          setSearchInput(`${classes.emptyInput}`)
+          setPlaceholder('Fill the  task')
+        }
+    }
 
 
+    const deleteTask = (id) => {
+      setMain(`${classes.main} ${classes.mainBlock}`);
+      setMainChildren(`${classes.mainChild} ${classes.mainChildSecond}`)
+      setDeletedId(id)
+    }
 
+    const deleteYes = () => {
+            const filteredList = toDoList.filter(el => el.id !== deletedId);
+            setToDoList(filteredList)
+            setDeletedId(``);
+            setMain(`${classes.main}`);
+            setMainChildren(`${classes.mainChild}`)
+    }
+
+    const deleteNo = () => {
+        setDeletedId(``);
+        setMain(`${classes.main}`)
+        setMainChildren(`${classes.mainChild}`)
+    }
+
+    const doneTask = (id) => {
+      let modifiedList = [...toDoList];
+      modifiedList.map(el => el.id === id ? el.done = !el.done : null);
+      setToDoList(modifiedList)
+    }
 
     return(
       <Wrapper>
-        <Card className={deleteDivClass}>
+        <Card className={mainChildren}>
               <Text> Are you sure you want to delete? </Text>
               <Card>
-                <Button className={classes.finallyDelete} >Yes</Button>
-                <Button className={classes.finallyDelete} >No</Button>
+                <Button className={classes.finallyDelete} onClick={deleteYes}>Yes</Button>
+                <Button className={classes.finallyDelete} onClick={deleteNo}>No</Button>
               </Card>
         </Card>
-        <Card className={deleteMainDivClass}> 
-        
-        </Card>
+        <Card className={main}></Card>
          <Card className={classes.hide}>
-          <Input  className={classes.checkbox} type="checkbox" />
+          <Input onClick={() => setNotComplited(!notComplited)} className={classes.checkbox} type="checkbox" />
           <Text className={classes.hidetext}>Hide complited</Text>
         </Card>
         <Card className={classes.addInput}>
-        <Input placeholder={inputPlaceholder} type="text" className={inputClass} myRef={taskRef} />
-        <Button  className={classes.addButton}>Add</Button>
+        <Input placeholder={placeholder} type="text" className={searchInput} myRef={taskRef} />
+        <Button onClick={addTask} className={classes.addButton}>Add</Button>
         </Card>
         
         <List className={classes.list}>
@@ -74,8 +110,8 @@ const App  = () => {
               return(
               <Card className={classes.conteiner}>
               <Listitem className={classes.myListitem } key={el.id}>
-                <Input defaultChecked={el.done}  className={classes.listitemInput} type="checkbox" />
-                 {el.text} <IoClose  className={classes.deleteItems} />
+                <Input defaultChecked={el.done} onClick={() => doneTask(el.id)} className={classes.listitemInput} type="checkbox" />
+                 {el.text} <IoClose onClick={() => deleteTask(el.id)} className={classes.deleteItems} />
               </Listitem>
               </Card>
               )
